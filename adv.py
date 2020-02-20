@@ -32,20 +32,35 @@ player = Player(world.starting_room)
 
 traversal_path = []
 # create explore method
-def explore(self, starting_room, unexplored_room):
+def explore(player, moves):
 # Make it into a bfs
     #initialize Queue
     queue = Queue()
-    queue.enqueue([starting_room])
+    #add starting room to queue
+    queue.enqueue([player.current_room.id])
     #initialize visited
     visited = set()
-    #while the queue has moves in it
-    while queue.size > 0:
-        #dequeue the first move
-        path = queue.dequeue()
-        #snag the last room
-        current_room = path[-1]
-        
+    #while the queue has places to go
+    while queue.size() > 0:
+        #as exploration continues, remove from queue
+        route = queue.dequeue()
+        #grab the last visited room
+        last_visited = path[-1]
+        #if the last room isn't in visited, add to visited
+        if last_visited not in visited:
+            visited.add(last_visited)
+        # note the exits
+            for exit in graph[last_visited]:
+                #if unvisited, add to list to go to
+                if graph[last_visited][exit] is '?':
+                    return route
+                #otherwise, get rid of the explored routed
+                else:
+                    been_there = list(route)
+                    been_there.append(graph[last_room][exit])
+                    queue.enqueue(been_there)
+    return []
+
 # check exits
 # if exit is unexplored, go that way
 # if an exit is explored, add to visited
