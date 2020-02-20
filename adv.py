@@ -4,6 +4,7 @@ from world import World
 
 import random
 from ast import literal_eval
+from util import Queue
 
 # Load world
 world = World()
@@ -27,7 +28,29 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
+
+
 traversal_path = []
+# create explore method
+def explore(self, starting_room, unexplored_room):
+# Make it into a bfs
+    #initialize Queue
+    queue = Queue()
+    queue.enqueue([starting_room])
+    #initialize visited
+    visited = set()
+    #while the queue has moves in it
+    while queue.size > 0:
+        #dequeue the first move
+        path = queue.dequeue()
+        #snag the last room
+        current_room = path[-1]
+        
+# check exits
+# if exit is unexplored, go that way
+# if an exit is explored, add to visited
+# convert exits to directions
+# add directions to traversal_path
 
 
 
