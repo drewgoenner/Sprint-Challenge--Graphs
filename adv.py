@@ -52,7 +52,7 @@ def explore(player, moves):
         # note the exits
             for exit in graph[last_visited]:
                 #if unvisited, add to list to go to
-                if graph[last_visited][exit] is '?':
+                if graph[last_visited][exit] == '?':
                     return route
                 #otherwise, get rid of the explored routed
                 else:
@@ -60,12 +60,35 @@ def explore(player, moves):
                     been_there.append(graph[last_room][exit])
                     queue.enqueue(been_there)
     return []
-
-# check exits
-# if exit is unexplored, go that way
-# if an exit is explored, add to visited
-# convert exits to directions
-# add directions to traversal_path
+#create method to check for exits that haven't been tried
+    def untried(player, new_moves):
+        #set exits
+        exits = graph[player.current_room.id]
+        #create empty list for untried exits to be used later
+        untried = []
+        #check exits of the current room for unexplored areas
+        for direction in exits:
+            if exits[direction] == "?":
+                #add to untried so they can be traversed
+                untried.append(direction)
+        #if there aren't any untried exits
+        if len(untried) == 0:
+            #explore until you find a room with unexplored exits
+            unexplored = explore(player, new_moves)
+            #set new room to the player's current room
+            new_room = player.current_room.id
+            #go through each unexplored room
+            for room in unexplored:
+                #then in that room, check for unexplored exits and add them to new moves
+                for direction in graph[new_room]:
+                    if graph[new_room][direction] == room:
+                        new_moves.enqueue(direction)
+                        new_room = next
+                        break
+        #otherwise, try a random untried exit
+    else:
+        new_moves.enqueue(untried[random.randint(0, len(untried) -1)])
+#create moves that only use untried exits
 
 
 
